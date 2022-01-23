@@ -2,7 +2,7 @@
 
 <ul>
 {% for choice in question.choice_set.all %}
-    <li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>
+    <li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</li> <!-- pluralize 는 단수이면 단수처리, 복수이면 복수처리 해주는 태그-->
 {% endfor %}
 </ul>
 
