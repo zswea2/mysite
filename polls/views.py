@@ -6,6 +6,7 @@ from django.template import loader
 from polls.models import Question, Choice
 from django.urls import reverse
 from django.views import generic
+from django.utils import timezone
 
 # def index(request): #클라이언트로부터 리퀘스트를 받아서 index뷰를 호출
 #     # return HttpResponse("Hello, world. You're at the polls index.") #response 해준다
@@ -70,13 +71,18 @@ class IndexView(generic.ListView):
 
     def get_queryset(self):
         """Return the last five published questions."""
-        return Question.objects.order_by('-pub_date')[:5]
+        # return Question.objects.order_by('-pub_date')[:5]
+        return Question.objects.filter(
+        pub_date__lte=timezone.now()
+    ).order_by('-pub_date')[:5]  #__lte는 작거나 같다라는 의미
+
 
 
 class DetailView(generic.DetailView):
     model = Question
     template_name = 'polls/detail.html'
-
+    def get_queryset(self):
+        return Question.objects.filter(pub_date__lte=timezone.now())
 
 class ResultsView(generic.DetailView):
     model = Question
